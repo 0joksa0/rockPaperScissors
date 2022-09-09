@@ -1,0 +1,69 @@
+body{
+    background-color: slategray;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around;
+    height: 100vh;
+    padding: 0;
+}
+
+.computer{
+    display: flex;
+}
+.player{
+    display: flex;
+}
+/* #buttons{
+    display: flex;
+    align-items: center;
+    height: 100px; 
+    position: relative; 
+    margin-top: 25%; 
+} */
+
+.field{
+    display:  flex;
+    /* height: 200px; */
+}
+
+.score{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100px;
+}
+
+.text{
+    display: flex;
+    flex-grow: 2;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: -100px;
+}
+
+button{
+    display: flex;
+    margin: auto;
+    font-size: 100px;
+    background-color: slategray;
+    border-radius: 10px;
+    border-style: hidden;
+    transition: all .5s ease;
+}
+
+
+p{
+    display: flex;
+    margin: auto;
+    font-size: 100px;
+    background-color: slategray;
+    border-radius: 10px;
+    border-style: hidden;
+    transition: all .5s ease;
+    padding: 1px 4px 1px 4px;
+}
+.clicked{
+    transform: scale(1.15);
+    background-color: darkslategray;
+}

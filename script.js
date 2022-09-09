@@ -1,5 +1,25 @@
 let userScore = 0;
 let computerScore = 0;
+let userChoice;
+let computerChoice;
+
+const div = document.querySelector(".text");
+const text = document.createElement("h3");
+const text2 = document.createElement("h4");
+const cScore = document.querySelector("#cScore");
+const pScore = document.querySelector("#pScore");
+div.append(text);
+div.append(text2);
+
+function gameReset(){
+    userScore = 0;
+    computerScore = 0;
+    text.textContent = "";
+    text2.textContent = "";
+    cScore.textContent = "0";
+    pScore.textContent = "0";
+}
+
 function getComputerChoice(){
     let choice = Math.floor(Math.random() * 3) + 1;
     switch (choice) {
@@ -15,10 +35,7 @@ function getComputerChoice(){
 
 }
 
-function getUserChoice(){
-    let choice = prompt("Choose between: rock, paper, scissors");
-    return choice;
-}
+
 
 function playRound(userChoice, computerChoice){
 
@@ -39,42 +56,77 @@ function playRound(userChoice, computerChoice){
         (computerChoice == "scissors" && userChoice == "paper"))
         winner = 0; //computer = 0
     updateMessage(winner,userChoice,computerChoice);
+    
 }
 
 function updateMessage(winner, userChoice, computerChoice){
     if(winner >= 0){
         if (winner) {
-            console.log("User wins");
-            console.log(firstLetterCase(userChoice) + ', beats ' + computerChoice);
+            text.textContent ="User wins";
+            text2.textContent = firstLetterCase(userChoice) + ', beats ' + computerChoice;
             userScore++;
         } else {
-            console.log("Computer wins");
-            console.log(firstLetterCase(computerChoice) + ', beats ' + userChoice);
+            text.textContent = "Computer wins" ;
+            text2.textContent = firstLetterCase(computerChoice) + ', beats ' + userChoice;
             computerScore++;
         }
     }else{
-        console.log("Tied");
+        text.textContent = "Tied";
+        text2.textContent = "";
     }
     console.log("user: " + userScore + " computer: " +computerScore);
 }
 
 function announceWinner(){
     if(userScore > computerScore)
-        console.log("User wins a game");
+        alert("User wins a game");
     else
-        console.log("Computer wins a game");
+        alert("Computer wins a game");
 }
 
 function game(){
-    for( let i = 0; userScore>computerScore ? userScore : computerScore < 5; i++){
-        playRound(getUserChoice(), getComputerChoice());
-    }
-    announceWinner()
+    const buttons = document.querySelectorAll("button");
+    const paragraphs = document.querySelectorAll(".pc");
+
+
+    buttons.forEach(button => {
+        button.addEventListener("click", () => {
+            button.classList.add("clicked");
+
+            computerChoice = getComputerChoice();
+            playRound(button.id, computerChoice);
+
+            paragraphs.forEach(paragraph => {
+                if(paragraph.id == computerChoice)
+                    paragraph.classList.add("clicked");
+            });
+
+            buttons.forEach(button => button.addEventListener("transitionend", removeTransition));
+            paragraphs.forEach(paragraph => paragraph.addEventListener("transitionend", removeTransition));
+        
+            cScore.textContent = computerScore;
+            pScore.textContent = userScore;
+            if(userScore + computerScore >= 5){
+                announceWinner();
+                gameReset();
+            }
+        });
+        
+    
+    });
+    
 }
 
-game();
+function removeTransition(e){
+    if(e.propertyName !== "transform" ) return;
+    this.classList.remove("clicked");
+  }
 
 function firstLetterCase(string){
     string = string[0].toUpperCase() + string.slice(1);
     return string;
 }
+
+
+
+game();
